@@ -1,7 +1,9 @@
 package pages;
 
+import dto.Account;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import wrappers.Input;
 import wrappers.Picklist;
 
@@ -11,15 +13,23 @@ public class NewAccountModal extends BasePage{
         super(driver);
     }
 
-    public void open() {
+    public NewAccountModal open() {
         driver.get("https://tms9-dev-ed.develop.lightning.force.com/lightning/o/Account/new");
+        return this;
     }
 
-    public void createAccount(String name, String phone, String fax, String rating) {
-        new Input(driver, "Account Name").write(name);
-        new Input(driver, "Phone").write(phone);
-        new Input(driver, "Fax").write(fax);
-        new Picklist(driver, "Rating").select(rating);
+    @Override
+    public NewAccountModal isPageOpened() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@name='SaveEdit']")));
+        return this;
+    }
+
+    public NewAccountModal createAccount(Account account) {
+        new Input(driver, "Account Name").write(account.getName());
+        new Input(driver, "Phone").write(account.getPhone());
+        new Input(driver, "Fax").write(account.getFax());
+        new Picklist(driver, "Rating").select(account.getRating());
+        return this;
     }
 
     public void clickSaveButton() {

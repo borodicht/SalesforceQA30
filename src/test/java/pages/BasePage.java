@@ -44,4 +44,8 @@ public abstract class BasePage {
             }
         };
     }
+
+    public abstract BasePage open();
+
+    public abstract BasePage isPageOpened();
 }
