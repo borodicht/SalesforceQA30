@@ -21,7 +21,7 @@ import java.time.Duration;
 import java.util.HashMap;
 
 import static utils.AllureUtils.takeScreenshot;
-import static utils.DriverFactory.*;
+
 
 @Listeners(TestListener.class)
 public class BaseTest {
@@ -36,27 +36,28 @@ public class BaseTest {
     @Parameters({"browser"})
     @BeforeMethod(alwaysRun = true, description = "Открытие браузера")
     public void setup(@Optional("chrome") String browser, ITestContext context) {
-//        if (browser.equalsIgnoreCase("chrome")) {
-//            ChromeOptions options = new ChromeOptions();
-//            HashMap<String, Object> chromePrefs = new HashMap<>();
-//            chromePrefs.put("credentials_enable_service", false);
-//            chromePrefs.put("profile.password_manager_enabled", false);
-//            options.setExperimentalOption("prefs", chromePrefs);
-//            options.addArguments("--incognito");
-//            options.addArguments("--disable-notifications");
-//            options.addArguments("--disable-popup-blocking");
-//            options.addArguments("--disable-infobars");
-//            driver = new ChromeDriver(options);
-//        } else if (browser.equalsIgnoreCase("firefox")) {
-//            driver = new FirefoxDriver();
-//        }
-        createDriver();
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        getDriver().manage().window().maximize();
+        if (browser.equalsIgnoreCase("chrome")) {
+            ChromeOptions options = new ChromeOptions();
+            HashMap<String, Object> chromePrefs = new HashMap<>();
+            chromePrefs.put("credentials_enable_service", false);
+            chromePrefs.put("profile.password_manager_enabled", false);
+            options.setExperimentalOption("prefs", chromePrefs);
+            options.addArguments("--incognito");
+            options.addArguments("--disable-notifications");
+            options.addArguments("--disable-popup-blocking");
+            options.addArguments("--disable-infobars");
+            options.addArguments("--headless");
+            driver = new ChromeDriver(options);
+        } else if (browser.equalsIgnoreCase("firefox")) {
+            driver = new FirefoxDriver();
+        }
+//        createDriver();
+//        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+//        getDriver().manage().window().maximize();
         softAssert = new SoftAssert();
 
-        loginStep = new LoginStep(getDriver());
-        accountStep = new AccountStep(getDriver());
+        loginStep = new LoginStep(driver);
+        accountStep = new AccountStep(driver);
     }
 
     @AfterMethod(alwaysRun = true, description = "Закрытие браузера")
@@ -64,6 +65,6 @@ public class BaseTest {
         if (ITestResult.FAILURE == result.getStatus()) {
             takeScreenshot(driver);
         }
-        quitDriver();
+        driver.quit();
     }
 }

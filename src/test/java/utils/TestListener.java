@@ -29,8 +29,6 @@ public class TestListener implements ITestListener {
         log.error("======================================== FAILED TEST {} Duration: {} ========================================%n", iTestResult.getName(),
                 getExecutionTime(iTestResult));
         ITestContext context = iTestResult.getTestContext();
-        WebDriver driver = (WebDriver) context.getAttribute("driver");
-        takeScreenshot(driver);
     }
 
     @Override
