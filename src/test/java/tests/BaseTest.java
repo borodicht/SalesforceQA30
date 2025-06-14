@@ -51,7 +51,6 @@ public class BaseTest {
 //            driver = new FirefoxDriver();
 //        }
         createDriver();
-        context.setAttribute("driver", driver);
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         getDriver().manage().window().maximize();
         softAssert = new SoftAssert();

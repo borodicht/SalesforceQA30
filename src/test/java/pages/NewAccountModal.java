@@ -1,12 +1,14 @@
 package pages;
 
 import dto.Account;
+import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import wrappers.Input;
 import wrappers.Picklist;
 
+@Log4j2
 public class NewAccountModal extends BasePage{
 
     public NewAccountModal(WebDriver driver) {
@@ -25,6 +27,7 @@ public class NewAccountModal extends BasePage{
     }
 
     public NewAccountModal createAccount(Account account) {
+        log.info("Creating account {}", account);
         new Input(driver, "Account Name").write(account.getName());
         new Input(driver, "Phone").write(account.getPhone());
         new Input(driver, "Fax").write(account.getFax());

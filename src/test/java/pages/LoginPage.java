@@ -1,11 +1,13 @@
 package pages;
 
+import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+@Log4j2
 public class LoginPage extends BasePage{
 
     public LoginPage(WebDriver driver) {
@@ -24,6 +26,7 @@ public class LoginPage extends BasePage{
 
     @Override
     public LoginPage open() {
+        log.info("Opening LoginPage");
         driver.get("https://tms9-dev-ed.develop.my.salesforce.com");
         return this;
     }
@@ -35,6 +38,7 @@ public class LoginPage extends BasePage{
     }
 
     public HomePage login(String user, String password) {
+        log.info("Log in with credential: '{}', '{}'", user, password);
         userNameField.sendKeys(user);
         passwordField.sendKeys(password);
         loginButton.click();
